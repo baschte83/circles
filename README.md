@@ -10,4 +10,4 @@ This program needs the position of two circles in an Cartesian coordinate system
 3. **intersecting:** one of the circles overlaps the other
 4. **touching:** both circles touch each other in exactly one single point
 
-If more than one result is right (for example `contained` and `intersecting`), than the result which occurs first in the list above is the right one (in the example: `contained` comes right before `intersecting`, so `contained` is the right answer).
+If more than one result is right (for example `contained` and `intersecting`), the result which occurs first in the list above is the right one (in the example: `contained` comes right before `intersecting`, so `contained` is the right answer).
