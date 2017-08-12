@@ -1,87 +1,83 @@
 /**
- * Organisation: Hochschule Muenchen, Fakultaet 07
- * Project: Praktikum Softwareentwicklung 1 Frau Prof. Dr. Hammerschall, WS 2016/2017
- * Author: Sebastian Baumann, bauman21@hm.edu
+ * Organisation: University of applied sciences Munich, faculty 07
+ * Project: lab to class software developement 1 Mrs. Prof. Dr. Hammerschall, WS 2016/2017
+ * Author: Sebastian Baumann, sebastian_baumann@gmx.net
  * Study group: IF3A
- * Date: 10. November 2016
- * Purpose: Loesung Praktikumseinheit 03: Circles
- * Software: Oracle Java SE JDK 1.8.0_101, Windows 10 x86_64
- * Hardware: Intel Core i5-6300 @ 2.40 GHz 2.50 GHz, 2 Cores, 4096 MB RAM
+ * Date: 26. Oktober 2016
+ * Purpose: solution to lab Circles
  */
-
-
 public class Circles {
 
-    private static final double EPSILON = 1E-16;
-
     /**
-     * Berechnet in welchem Verhaeltnis zwei Kreise zueinander stehen.
-     * @param x1 x-Wert des Mittelpunkts von Kreis 1
-     * @param y1 y-Wert des Mittelpunkts von Kreis 1
-     * @param r1 Radius von Kreis 1
-     * @param x2 x-Wert des Mittelpunkts von Kreis 2
-     * @param y2 y-Wert des Mittelpunkts von Kreis 2
-     * @param r2 Radius von Kreis 2
-     * @return liefert das Verhaeltnis der Kreise zueinander als String
+     * This method computes the relation between two given circles.
+     * @param x1 X-coordinate of the center of circle 1
+     * @param y1 Y-coordinate of the center of circle 1
+     * @param r1 radius of circle 1
+     * @param x2 X-coordinate of the center of circle 2
+     * @param y2 Y-coordinate of the center of circle 2
+     * @param r2 radius of circle 2
+     * @return - returns the relation between the tw given circles as a String
      */
-    public String compareDistance(final double x1, final double y1, final double r1, final double x2, final double y2, final double r2) {
+    private String compareDistance(final double x1, final double y1, final double r1, final double x2, final double y2, final double r2) {
 
-        // Variable fuer das berechnete Ergebnis.
-        String result = "";
+        // Variable to store the computed result to
+        String result;
 
         // --------------------------------------
 
-        /**
-         * Um nicht immer hin- und her zu vergleichen, wenn ich einen Vergleich mit dem groesseren Radius brauche,
-         * suche ich per Math.max und Math.min den groesseren und kleineren der Radien heraus und vergleiche dann
-         * mit maximalRadius, wenn ich einen Vergleich mit dem groesseren der beiden Radien brauche und mit
-         * minimalRadius, wenn ich einen Vergleich mit dem kleineren Radius brauche.
+        /*
+         * For my algorithm I use this two values for comparison reasons. Everytime I need a comparison of a cicrle
+         * with the greater of both circles I compare it with maximumRadius. If I need a comparison with the smaller
+         * of both circles I compare it with minimumRadius.
          */
-        double maximalRadius = Math.max(r1, r2);
-        double minimalRadius = Math.min(r1, r2);
+        double maximumRadius = Math.max(r1, r2);
+        double minimumRadius = Math.min(r1, r2);
 
-        // Berechnung des Abstandes zwischen den beiden Kreismittelpunkten
-        final double distance = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+        // Computation of the distance between the two circle centers
+        final double distanceOfCenters = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 
-        // Berechnung der Summe der beiden Kreisradien
-        final double sum = r1 + r2;
+        // Computation of the sum of both circle radii
+        final double radiusSum = r1 + r2;
 
-        // Klassifizierung der gegenseitigen Lage der beiden Kreise mittels einer if-Kaskade:
 
-        /**
-         * Sollte der Abstand der beiden Kreismittelpunkte groesser sein als beide Radien zusammengerechnet,
-         * dann sind die beiden Kreise in jedem Fall disjunkt.
+        // Classification of the position of both circles relative to one another
+
+        /*
+         * If the distance of both circle centers is greater than the sum of both radii then both circles a disjoint.
          */
-        if (distance > sum) {
+        if (distanceOfCenters > radiusSum) {
 
             result = "disjoint";
 
         }
-        /**
-         * Ist der Abstand der beiden Kreise 0, so sind die Kreise konzentrisch und somit beinhaltet immer der
-         * groessere Kreis den anderen. Sind beide Kreise gleich gross und konzentrisch, so treffen mehrere Kriterien
-         * zu. Da laut Aufgabe das in der Liste erstgenannte zutreffen soll, ist das Ergebnis somit ebenfalls
-         * "contained". Es ist ebenfalls ein Kreis im anderen, wenn der Abstand der beiden Kreismittelpunkte
-         * kleiner ist als der Radius des groesseren Kreises und gleichzeitig der Radius des kleineren Kreises hoechstens
-         * so gross ist, wie der Abstand der beiden Kreismittelpunkte.
+
+        /*
+         * If the distance between both circle centers is 0 than both circles are concentric and therefore the greater circle
+         * always contains the smaller one. If both circles are of the same size (radii are equal) more than one criterion is
+         * right. In such case the assignment demands that the first of all right criteria is the right one and therefore the
+         * right answer is 'contained' as well. Also 'contained' is right if the distance of the centers is smaller than the
+         * radius of the greater circle and at the same time the radius of the smaller one is at the most as large as the
+         * distance between both centers.
          */
-        else if ((distance == 0) || ((minimalRadius <= distance) && (distance < maximalRadius))) {
+        else if ((distanceOfCenters == 0) || ((minimumRadius <= distanceOfCenters) && (distanceOfCenters < maximumRadius))) {
 
             result = "contained";
 
         }
-        /**
-         * Treffen alle oben geprueften Bedingungen nicht zu und ist nun der Abstand der beiden Kreismittelpunkte
-         * kleiner als die Summer der beiden Radien, so schneiden sich die beiden Kreise.
+
+        /*
+         * If none of the upper criteria is right and the distance between the two centers is smaller than the sum
+         * of both radii, both circles are 'intersecting'.
          */
-        else if (distance < sum) {
+        else if (distanceOfCenters < radiusSum) {
 
             result = "intersecting";
 
         }
-        /**
-         * Treffen alle oben genannten Bedingungen nicht zu, so entspricht der Abstand der beiden Kreismittelpunkte
-         * exakt der Summe der beiden Radien und die beiden Kreise beruehren sich.
+
+        /*
+         * If none of the upper criteria is right the distance of both centers corresponds to the sum of both radii
+         * and therefore both circles are 'touching'.
          */
         else {
 
@@ -96,27 +92,22 @@ public class Circles {
 
 
     /**
-     * Start des Programms Circles.
-     * @param args erwartet die jeweiligen x- und y- Werte sowie die
-     * Radien der beiden Kreise.
+     * This is the main function of the program.
+     * @param args - variable number of values from the terminal
      */
     public static void main(String[] args) {
 
-        // Erster Kreis: x-Wert, y-Wert, Radius
+        // First circle: X-coordinate of center, Y-coordinate of center, radius
         double x1 = Double.parseDouble(args[0]);
         double y1 = Double.parseDouble(args[1]);
         double r1 = Double.parseDouble(args[2]);
 
-        // Zweiter Kreis: x-Wert, y-Wert, Radius
+        // Second circle: X-coordinate of center, Y-coordinate of center, radius
         double x2 = Double.parseDouble(args[3]);
         double y2 = Double.parseDouble(args[4]);
         double r2 = Double.parseDouble(args[5]);
 
-        // Pruefung ob Radien < 0 sind. In diesem Fall Abbruch des
-        // Programms mit Fehlermeldung.
-
-        // --------------------------------------
-
+        // Check if both radii are greater than 0. If not, the program ends.
         if ((r1 < 0) || (r2 < 0)) {
 
             System.out.println("Invalid Input");
@@ -124,14 +115,11 @@ public class Circles {
         }
         else {
 
-            // Aufruf der Methode zur Berechnung des Verhaeltnisses
             Circles circles = new Circles();
             String result = circles.compareDistance(x1, y1, r1, x2, y2, r2);
             System.out.println(result);
 
         }
-
-        // --------------------------------------
 
     }
 
